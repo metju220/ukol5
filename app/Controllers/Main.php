@@ -43,26 +43,15 @@ class Main extends BaseController
     }
 
     public function city($nazevMesta)
-{
-    $config = new MyConfig();
-    $strankovani = $config->strankovani;
-
-    $cityDecoded = urldecode($nazevMesta);
-
-    $rider = $this->rider
-        ->select('rider.*, location.name as city')
-        ->join('location', 'rider.place_link = location.link', 'left')
-        ->where('location.name', $cityDecoded)
-        ->orderBy('rider.last_name', 'ASC')
-        ->orderBy('rider.first_name', 'ASC')
-        ->paginate($strankovani);
-
-    $pager = $this->rider->pager;
-
-    $data['rider'] = $rider;
-    $data['pager'] = $pager;
-    $data['city'] = $cityDecoded;
-
-    echo view('mesto', $data);
-}
+    {
+        $rider = $this->rider
+            ->select('rider.*, location.name as city')
+            ->join('location', 'rider.place_link = location.link', 'left')
+            ->where('location.name', $nazevMesta)
+            ->orderBy('rider.last_name', 'ASC')
+            ->orderBy('rider.first_name', 'ASC')
+            ->findAll();
+    
+        echo view('mesto', $nazevMesta);
+    }
 }
