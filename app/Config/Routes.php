@@ -7,5 +7,6 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Main::index');
 $routes->get('/riders', 'Main::index');
+$routes->get('main/city/(:any)', 'Main::city/$1');
 
 

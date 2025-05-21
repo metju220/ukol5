@@ -6,6 +6,9 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\Rider;
 use Config\MyConfig;
+use App\Models\Location;
+use App\Models\City;
+use App\Models\jezdec;
 
 class Main extends BaseController
 {
@@ -24,7 +27,11 @@ class Main extends BaseController
         $strankovani = $config->strankovani;
     
         $rider = $this->rider
+            ->select('rider.*, location.name as city')
+            ->join('location', 'rider.place_link = location.link', 'left')
             ->where('rider.country', 'fr') // Pokud chceš jen Francouze
+            ->orderBy('rider.last_name', 'ASC')
+            ->orderBy('rider.first_name', 'ASC')
             ->paginate($strankovani);
     
         $pager = $this->rider->pager;
@@ -34,4 +41,28 @@ class Main extends BaseController
     
         echo view("index", $data);
     }
+
+    public function city($nazevMesta)
+{
+    $config = new MyConfig();
+    $strankovani = $config->strankovani;
+
+    $cityDecoded = urldecode($nazevMesta);
+
+    $rider = $this->rider
+        ->select('rider.*, location.name as city')
+        ->join('location', 'rider.place_link = location.link', 'left')
+        ->where('location.name', $cityDecoded)
+        ->orderBy('rider.last_name', 'ASC')
+        ->orderBy('rider.first_name', 'ASC')
+        ->paginate($strankovani);
+
+    $pager = $this->rider->pager;
+
+    $data['rider'] = $rider;
+    $data['pager'] = $pager;
+    $data['city'] = $cityDecoded;
+
+    echo view('mesto', $data);
+}
 }

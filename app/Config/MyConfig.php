@@ -5,5 +5,5 @@ use CodeIgniter\Config\BaseConfig;
 
 class MyConfig extends BaseConfig
 {
-    public $strankovani = 9;
+    public $strankovani = 18;
 }
