@@ -44,14 +44,21 @@ class Main extends BaseController
 
     public function city($nazevMesta)
     {
-        $rider = $this->rider
+        $cityDecoded = urldecode($nazevMesta);
+    
+        $riders = $this->rider
             ->select('rider.*, location.name as city')
             ->join('location', 'rider.place_link = location.link', 'left')
-            ->where('location.name', $nazevMesta)
+            ->where('location.name', $cityDecoded)
             ->orderBy('rider.last_name', 'ASC')
             ->orderBy('rider.first_name', 'ASC')
             ->findAll();
     
-        echo view('mesto', $nazevMesta);
+        $data = [
+            'riders' => $riders,
+            'city'   => $cityDecoded
+        ];
+    
+        echo view('mesto', $data);
     }
 }
