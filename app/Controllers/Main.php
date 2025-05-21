@@ -20,8 +20,18 @@ class Main extends BaseController
 
     public function index()
     {
-        $rider = $this->rider->where('country', 'fr')->findAll();
+        $config = new MyConfig();
+        $strankovani = $config->strankovani;
+    
+        $rider = $this->rider
+            ->where('rider.country', 'fr') // Pokud chceš jen Francouze
+            ->paginate($strankovani);
+    
+        $pager = $this->rider->pager;
+    
         $data["rider"] = $rider;
+        $data["pager"] = $pager; // <<< Tohle tam chybělo
+    
         echo view("index", $data);
     }
 }

@@ -8,7 +8,7 @@
     <?php foreach ($rider as $row): ?>
         <div class='col-md-4 mt-4'>
             <div class='card shadow-lg border-0 rounded-3 p-3'>
-                <img src="<?= base_url('public/images/' . ($row['photo'] ?? 'default.jpg')) ?>" class="card-img-top" alt="Foto">
+                <img src="<?= base_url('obrazky/' . ($row['photo'] ?? 'default.jpg')) ?>" class="card-img-top" alt="Foto">
                 <div class="card-body">
                     <h5 class="card-title text-center fw-bold text-primary">
                         <?= esc($row['first_name'] ?? '???') . ' ' . esc($row['last_name'] ?? '???') ?>
@@ -26,6 +26,8 @@
 
 
 
-
+<?php
+    echo $pager->links();
+?>
 
 <?= $this->endSection(); ?>
