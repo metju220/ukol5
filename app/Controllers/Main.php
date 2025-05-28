@@ -3,62 +3,56 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\Rider;
 use Config\MyConfig;
-use App\Models\Location;
-use App\Models\City;
-use App\Models\jezdec;
 
 class Main extends BaseController
 {
-
-    var $rider;
+    protected $rider;
 
     public function __construct()
     {
         $this->rider = new Rider();
-
     }
 
     public function index()
     {
         $config = new MyConfig();
         $strankovani = $config->strankovani;
-    
+
         $rider = $this->rider
-            ->select('rider.*, location.name as city')
-            ->join('location', 'rider.place_link = location.link', 'left')
-            ->where('rider.country', 'fr') // Pokud chceš jen Francouze
+            ->select('rider.*, location.name as city, location.id as place_id')
+            ->join('location', 'rider.place_of_birth = location.id', 'left')
+            ->where('rider.country', 'fr')
             ->orderBy('rider.last_name', 'ASC')
             ->orderBy('rider.first_name', 'ASC')
             ->paginate($strankovani);
+
+            $pager = $this->rider->pager;
     
-        $pager = $this->rider->pager;
-    
-        $data["rider"] = $rider;
-        $data["pager"] = $pager; // <<< Tohle tam chybělo
-    
-        echo view("index", $data);
+            $data["rider"] = $rider;
+            $data["pager"] = $pager; // <<< Tohle tam chybělo
+        
+            echo view("index", $data);
     }
 
-    public function city($nazevMesta)
+    public function city($id)
     {
-        $cityDecoded = urldecode($nazevMesta);
-    
         $riders = $this->rider
             ->select('rider.*, location.name as city')
-            ->join('location', 'rider.place_link = location.link', 'left')
-            ->where('location.name', $cityDecoded)
+            ->join('location', 'rider.place_of_birth = location.id', 'left')
+            ->where('rider.place_of_birth', $id)
+            ->where('rider.country', 'fr')
             ->orderBy('rider.last_name', 'ASC')
-            ->orderBy('rider.first_name', 'ASC')
             ->findAll();
-    
+
+        $cityName = $riders[0]['city'] ?? 'Neznámé město';
+
         $data = [
             'riders' => $riders,
-            'city'   => $cityDecoded
+            'city'   => $cityName
         ];
-    
-        echo view('mesta', $data);
+
+        return view('mesta', $data);
     }
 }

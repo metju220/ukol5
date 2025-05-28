@@ -23,7 +23,7 @@
                     <p><strong>Země:</strong> <?= ($row['country'] == 'fr') ? 'Francie' : esc($row['country'] ?? '???') ?></p>
                     <p><strong>Město narození:</strong>
                         <?php if (!empty($row['city'])): ?>
-                            <a href="<?= base_url('main/city/' . urlencode($row['city'])) ?>">
+                            <a href="<?= base_url('main/city/' . $row['place_id']) ?>">
                                 <?= esc($row['city']) ?>
                             </a>
                         <?php else: ?>
