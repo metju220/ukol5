@@ -28,6 +28,5 @@
     </tbody>
 </table>
 
-<?= $pager->links(); ?>
 
 <?= $this->endSection(); ?>

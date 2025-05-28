@@ -59,6 +59,6 @@ class Main extends BaseController
             'city'   => $cityDecoded
         ];
     
-        echo view('mesto', $data);
+        echo view('mesta', $data);
     }
 }
