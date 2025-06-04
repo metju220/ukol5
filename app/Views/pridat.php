@@ -4,7 +4,7 @@
 
 <h1 class="mb-4">Přidat nového jezdce</h1>
 
-<form method="post" action="<?= base_url('pridat') ?>">
+<form method="post" action="<?= base_url('pridat') ?>" enctype="multipart/form-data">
     <?= csrf_field() ?>
 
     <div class="mb-3">
@@ -38,8 +38,8 @@
     </div>
 
     <div class="mb-3">
-        <label for="photo" class="form-label">Fotka</label>
-        <input type="file" name="photo" id="photo" class="form-control" accept="image/*">
+    <label for="photo" class="form-label">Logo závodu</label>
+    <input type="file" class="form-control" id="photo" name="photo" accept=".jpg, .png, .jpeg, .webp">
     </div>
 
     <button type="submit" class="btn btn-success">Uložit</button>

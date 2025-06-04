@@ -65,18 +65,34 @@ class Main extends BaseController
     {
         $model = new \App\Models\Rider();
 
+        // Upload fotky
+        $logo = $this->request->getFile('photo');
+        $photoname = null;
+    
+        if ($logo && $logo->isValid() && !$logo->hasMoved()) {
+            $photoname = $logo->getRandomName();
+            $logo->move(ROOTPATH . 'obrazky', $photoname);
+    
+            if (!$logo->hasMoved()) {
+                return redirect()->back()
+                    ->withInput()
+                    ->with('error', 'Nepodařilo se uložit logo.');
+            }
+        }
+
+
         $data = [
-            'first_name'      => $this->request->getPost('first_name'),
-            'last_name'       => $this->request->getPost('last_name'),
-            'country'         => $this->request->getPost('country'),
-            'date_of_birth'   => $this->request->getPost('date_of_birth'),
-            'weight'          => $this->request->getPost('weight'),
-            'height'          => $this->request->getPost('height'),
-            'photo'           => null, // Můžeš později udělat upload obrázku
+            'first_name'    => $this->request->getPost('first_name'),
+            'last_name'     => $this->request->getPost('last_name'),
+            'country'       => $this->request->getPost('country'),
+            'date_of_birth' => $this->request->getPost('date_of_birth'),
+            'weight'        => $this->request->getPost('weight'),
+            'height'        => $this->request->getPost('height'),
+            'photo'         =>  $photoname
         ];
 
         $model->insert($data);
 
-        return redirect()->to('/')->with('Skvělá práce tady máš kra', 'Záznam byl přidán!');
+        return redirect()->to('/')->with('success', 'Záznam byl přidán!');
     }
 }
