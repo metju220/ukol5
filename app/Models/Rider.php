@@ -12,7 +12,19 @@ class Rider extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields = [
+        'first_name',
+        'last_name',
+        'country',
+        'date_of_birth',
+        'place_of_birth',
+        'photo',
+        'weight',
+        'height',
+        'link',
+        'place_link',
+        'in_results'
+    ];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

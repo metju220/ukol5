@@ -28,12 +28,12 @@ class Main extends BaseController
             ->orderBy('rider.first_name', 'ASC')
             ->paginate($strankovani);
 
-            $pager = $this->rider->pager;
-    
-            $data["rider"] = $rider;
-            $data["pager"] = $pager; // <<< Tohle tam chybělo
-        
-            echo view("index", $data);
+        $pager = $this->rider->pager;
+
+        $data["rider"] = $rider;
+        $data["pager"] = $pager; // <<< Tohle tam chybělo
+
+        echo view("index", $data);
     }
 
     public function city($id)
@@ -54,5 +54,29 @@ class Main extends BaseController
         ];
 
         return view('mesta', $data);
+    }
+
+    public function pridat()
+    {
+        return view('pridat');
+    }
+
+    public function ulozit()
+    {
+        $model = new \App\Models\Rider();
+
+        $data = [
+            'first_name'      => $this->request->getPost('first_name'),
+            'last_name'       => $this->request->getPost('last_name'),
+            'country'         => $this->request->getPost('country'),
+            'date_of_birth'   => $this->request->getPost('date_of_birth'),
+            'weight'          => $this->request->getPost('weight'),
+            'height'          => $this->request->getPost('height'),
+            'photo'           => null, // Můžeš později udělat upload obrázku
+        ];
+
+        $model->insert($data);
+
+        return redirect()->to('/')->with('Skvělá práce tady máš kra', 'Záznam byl přidán!');
     }
 }

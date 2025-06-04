@@ -7,7 +7,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link active" href="<?= base_url('/'); ?>">Domů</a>
+                    <a class="nav-link" href="<?= base_url('pridat') ?>">Přidat jezdce</a>
                 </li>
             </ul>
         </div>
