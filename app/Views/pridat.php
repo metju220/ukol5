@@ -38,7 +38,7 @@
     </div>
 
     <div class="mb-3">
-    <label for="photo" class="form-label">Logo závodu</label>
+    <label for="photo" class="form-label">Fotka</label>
     <input type="file" class="form-control" id="photo" name="photo" accept=".jpg, .png, .jpeg, .webp">
     </div>
 
